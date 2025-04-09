@@ -4,6 +4,7 @@ public class Main {
     }
 }
 
+// My Solution
 class Solution {
     public int removeDuplicates(int[] nums) {
         int insertionPoint = 1;

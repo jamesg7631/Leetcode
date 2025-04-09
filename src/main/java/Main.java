@@ -11,10 +11,7 @@ class Solution {
 
         for (int i = 0; i < nums.length; i++) {
             ans[i] = nums[i];
-        }
-
-        for (int i = nums.length; i < newSize; i++) {
-            ans[i] = nums[i -nums.length];
+            ans[i + nums.length] = nums[i];
         }
 
         return ans;

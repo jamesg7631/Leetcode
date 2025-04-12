@@ -4,21 +4,30 @@ public class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
         // Test Case 1
-        ListNode head = new ListNode(1);
-        ListNode second = new ListNode(2);
-        ListNode third = new ListNode(3);
-        ListNode fourth = new ListNode(4);
-        ListNode fifth = new ListNode(5);
-        head.next = second;
-        second.next = third;
-        third.next = fourth;
-        fourth.next = fifth;
+//        ListNode head = new ListNode(1);
+//        ListNode second = new ListNode(2);
+//        ListNode third = new ListNode(3);
+//        ListNode fourth = new ListNode(4);
+//        ListNode fifth = new ListNode(5);
+//        head.next = second;
+//        second.next = third;
+//        third.next = fourth;
+//        fourth.next = fifth;
+//        sol.removeNthFromEnd(head, 2);
+        // Test Case 2
+//        ListNode head = new ListNode(1);
+//        sol.removeNthFromEnd(head, 1);
+        // Test Case 3
+        ListNode head = new ListNode(1, new ListNode(2));
         sol.removeNthFromEnd(head, 2);
     }
 }
 
 class Solution {
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null) {
+            return null;
+        }
         ListNode slow = head;
         ListNode fast = head;
         int numberOfFastJump = 0;
@@ -37,11 +46,15 @@ class Solution {
         }
         int middleIndex = length / 2;
         int removalIndex = length - n;
+        if (removalIndex == 0) {
+            head = head.next;
+            return head;
+        }
         int i;
 
         if (removalIndex < middleIndex) {
-            prev = null;
             slow = head;
+            prev = slow;
             i = 0;
         } else {
             i = middleIndex;

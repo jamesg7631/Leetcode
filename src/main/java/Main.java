@@ -2,20 +2,31 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+        // Test Case 1
         Solution sol = new Solution();
-        ListNode head = new ListNode(0);
-        ListNode second = new ListNode(1);
-        ListNode third = new ListNode(2);
-        ListNode fourth = new ListNode(3);
-        ListNode five = new ListNode(4);
-        ListNode six = new ListNode(5);
-        ListNode seven = new ListNode(6);
+//        ListNode head = new ListNode(0);
+//        ListNode second = new ListNode(1);
+//        ListNode third = new ListNode(2);
+//        ListNode fourth = new ListNode(3);
+//        ListNode five = new ListNode(4);
+//        ListNode six = new ListNode(5);
+//        ListNode seven = new ListNode(6);
+//        head.next = second;
+//        second.next = third;
+//        third.next = fourth;
+//        fourth.next = five;
+//        five.next = six;
+//        six.next = seven;
+        // Test Case 2
+        ListNode head = new ListNode(2);
+        ListNode second = new ListNode(4);
+        ListNode third = new ListNode(6);
+        ListNode fourth = new ListNode(8);
+        ListNode fifth = new ListNode(10);
         head.next = second;
         second.next = third;
         third.next = fourth;
-        fourth.next = five;
-        five.next = six;
-        six.next = seven;
+        fourth.next = fifth;
         sol.reorderList(head);
         System.out.println(head);
     }
@@ -23,33 +34,42 @@ public class Main {
 
 class Solution {
     public void reorderList(ListNode head) {
-        ListNode current = head;
+        if (head == null) {
+            return;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+        }
+        ListNode list1Head = head;
+        ListNode list2Head = slow;
+        ListNode prev = null;
+        while (slow != null) {
+            list2Head = slow;
+            slow = slow.next;
+            list2Head.next = prev;
+            prev = list2Head;
+        }
+
+        ListNode nextList1 = list1Head.next;
+        ListNode nextList2 =list2Head;
+        ListNode current = list1Head;
         int i = 0;
-        ListNode oddHead = null;
-        ListNode prevEven = null;
-        while (current != null) {
-            //Base Case
-            if (i == 0) {
-                prevEven = current;
-                i++;
+        while (current.next != null) {
+            if (i % 2 == 0) {
+                current.next = nextList2;
                 current = current.next;
-            } else if (i == 1) {
-                oddHead = current;
-                i++;
+                nextList2 = current.next;
+            } else if (i % 2 == 1) {
+                current.next = nextList1;
                 current = current.next;
-                oddHead.next = null;
-            } else if (i % 2 == 0) {
-                prevEven.next = current;
-                prevEven = current;
-                i++;
-                current = current.next;
-            } else {
-                ListNode next = current.next;
-                current.next = oddHead;
-                oddHead = current;
-                current = next;
-                i++;
+                nextList1 = current.next;
             }
+            i++;
         }
     }
 }
